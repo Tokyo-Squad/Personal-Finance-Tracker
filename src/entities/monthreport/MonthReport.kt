@@ -1,4 +1,4 @@
-package entities
+package entities.monthreport
 
 import java.sql.Date
 
