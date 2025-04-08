@@ -1,5 +1,6 @@
-package entity.monthreport
+package monthreport
 
+import entity.MonthReport
 import entity.Transaction
 
 class MonthlyReportPrinter(
