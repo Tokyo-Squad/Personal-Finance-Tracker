@@ -1,6 +1,6 @@
 package entity
 
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 /**
  * @param id Transaction's unique ID.
@@ -12,15 +12,12 @@ import java.time.LocalDate
  */
 data class Transaction(
     val id: Int,
-    val date: LocalDate,
+    val date: LocalDateTime,
     val money: Money,
     val category: Category,
-    val description: String,
+    val description: String?,
     val type: Type
 ) {
-    /**
-     * Transaction types.
-     */
     enum class Type {
         INCOME,
         EXPENSE
