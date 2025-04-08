@@ -1,4 +1,4 @@
-package entity.monthreport
+package monthreport
 
 import entity.Transaction
 
