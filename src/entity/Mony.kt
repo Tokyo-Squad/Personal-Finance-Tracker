@@ -4,12 +4,12 @@ import java.math.BigDecimal
 
 data class Money(
     val amount: BigDecimal,
-    val currencyType: Currency = Currency.Dollars
-)
-
+    val currencyType: Currency = Currency.USD
+){
 enum class Currency {
-    Dollars,
-    Dinar,
-    Euro,
-    EgyptianPound
+    USD,
+    EUR,
+    EGP,
+    IQD
+}
 }
