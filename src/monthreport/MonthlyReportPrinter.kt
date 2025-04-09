@@ -1,11 +1,11 @@
 package monthreport
 
-import entity.MonthReport
-import entity.Transaction
+import entity.MonthReportEntity
+import entity.TransactionEntity
 
 class MonthlyReportPrinter(
-    private val transactions: List<Transaction>,
-    private val report: MonthReport
+    private val transactions: List<TransactionEntity>,
+    private val report: MonthReportEntity
 ) {
 
 }

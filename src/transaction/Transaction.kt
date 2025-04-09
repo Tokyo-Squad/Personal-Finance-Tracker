@@ -1,8 +1,7 @@
 package transaction
 
-import entity.Transaction
+import entity.TransactionEntity
 
-typealias TransactionEntity = Transaction
 
 
 interface Transaction {
