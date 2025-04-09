@@ -1,6 +1,7 @@
 package transaction
 
 import entity.TransactionEntity
+import java.time.LocalDateTime
 
 
 /**
@@ -20,6 +21,18 @@ class InMemoryTransaction : Transaction {
     private val transactions = mutableListOf<TransactionEntity>()
 
     override fun add(transaction: TransactionEntity): Boolean {
+        // Check for duplicate ID
+        if (transactions.any { it.id == transaction.id }) {
+            return false
+        }
+        // Validate non-negative amount
+        if (transaction.money.amount < 0){
+            return false
+        }
+        // Prevent future dates
+        if (transaction.date > LocalDateTime.now()){
+            return false
+        }
         transactions.add(transaction)
         return true
     }
