@@ -8,14 +8,12 @@ import java.io.IOException
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
-class FileTransaction (private val file: File = File("transactions.json")): Transaction {
-    // Add a new transaction to the file (append mode)
+class FileTransaction (private val file: File = File("transactions.ser")): Transaction {
+
     override fun add(transaction: TransactionEntity): Boolean {
         return try {
-            // Read the existing transactions from the file, or initialize an empty list
             val transactions = getAll().toMutableList()
 
-            // Add the new transaction
             transactions.add(transaction)
 
             // Serialize and write the updated list back to the file
@@ -23,17 +21,19 @@ class FileTransaction (private val file: File = File("transactions.json")): Tran
                 outputStream.writeObject(transactions) // Write the whole list
             }
 
-            true // Successfully added
+            true
         } catch (e: IOException) {
-            e.printStackTrace()  // Handle exceptions if file operations fail
-            false  // Failed to add transaction
+            // Handle general I/O errors (e.g., file not found, access errors)
+            println("IOException occurred while adding the transaction: ${e.message}")
+            false
+        } catch (e: Exception) {
+            println("An unexpected error occurred: ${e.message}")
+            false
         }
     }
 
-    // Get all transactions from the file
     override fun getAll(): List<TransactionEntity> {
         return try {
-            // Read the transactions from the file if available
             if (file.exists() && file.length() > 0) {
                 ObjectInputStream(FileInputStream(file)).use { inputStream ->
                     val transactions = inputStream.readObject()
@@ -42,18 +42,21 @@ class FileTransaction (private val file: File = File("transactions.json")): Tran
                     if (transactions is List<*>) {
                         transactions.filterIsInstance<TransactionEntity>() // Safely cast to List<TransactionEntity>
                     } else {
-                        emptyList() // If it's not a List, return an empty list
+                        emptyList()
                     }
                 }
             } else {
-                emptyList() // If the file doesn't exist or is empty, return an empty list
+                emptyList()
             }
         } catch (e: FileNotFoundException) {
-            emptyList() // File doesn't exist, return empty list
+            println("File not found: ${file.absolutePath}")
+            emptyList()
         } catch (e: IOException) {
-            emptyList() // IOException occurred, return empty list
+            println("I/O error occurred while reading the file: ${e.message}")
+            emptyList()
         } catch (e: ClassNotFoundException) {
-            emptyList() // ClassNotFoundException occurred, return empty list
+            println("Class not found during deserialization: ${e.message}")
+            emptyList()
         }
     }
 
