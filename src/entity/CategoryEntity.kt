@@ -1,6 +1,6 @@
 package entity
 
-enum class Categories {
+enum class CategoryEntity {
     Food,
     Rent,
     Salary,
