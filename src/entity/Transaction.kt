@@ -21,7 +21,7 @@ data class Transaction(
     val type: Type
 ): Serializable
 {
-    enum class Type {
+    enum class Type: Serializable {
         INCOME,
         EXPENSE
     }

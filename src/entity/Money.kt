@@ -1,11 +1,13 @@
 package entity
 
+import java.io.Serializable
+
 
 data class Money(
     val amount: Double,
     val currencyType: Currency = Currency.USD
-){
-enum class Currency {
+): Serializable {
+enum class Currency: Serializable {
     USD,
     EUR,
     EGP,
