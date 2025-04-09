@@ -1,7 +1,7 @@
 package entity
 
 
-data class Money(
+data class MoneyEntity(
     val amount: Double,
     val currencyType: Currency = Currency.USD
 ){

@@ -1,7 +1,7 @@
 package entity
 
 
-data class MonthReport(
+data class MonthReportEntity(
     val incomeTotal: Double,
     val expenseTotal: Double,
     val balance: Double,
