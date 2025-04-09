@@ -2,7 +2,7 @@ package entity
 
 import java.io.Serializable
 
-enum class Categories: Serializable {
+enum class CategoryEntity {
     Food,
     Rent,
     Salary,

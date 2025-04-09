@@ -3,7 +3,7 @@ package entity
 import java.io.Serializable
 
 
-data class Money(
+data class MoneyEntity(
     val amount: Double,
     val currencyType: Currency = Currency.USD
 ): Serializable {

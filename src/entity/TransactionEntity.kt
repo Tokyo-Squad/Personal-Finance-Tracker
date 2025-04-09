@@ -1,6 +1,5 @@
 package entity
 
-import java.io.Serializable
 import java.time.LocalDateTime
 
 /**
@@ -11,12 +10,11 @@ import java.time.LocalDateTime
  * @param description Brief details of the transaction.
  * @param type Indicates if it's INCOME or EXPENSE.
  */
-
-data class Transaction(
+data class TransactionEntity(
     val id: Int,
     val date: LocalDateTime,
-    val money: Money,
-    val category: Categories,
+    val money: MoneyEntity,
+    val category: CategoryEntity,
     val description: String?,
     val type: Type
 ): Serializable

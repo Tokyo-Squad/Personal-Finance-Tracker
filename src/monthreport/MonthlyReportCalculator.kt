@@ -1,6 +1,6 @@
 package monthreport
 
-import entity.Transaction
+import entity.TransactionEntity
 
-class MonthlyReportCalculator(private val transactions: List<Transaction>) {
+class MonthlyReportCalculator(private val transactions: List<TransactionEntity>) {
 }
