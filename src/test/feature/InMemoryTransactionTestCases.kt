@@ -1,3 +1,5 @@
+package test.feature
+
 import entity.CategoryEntity
 import entity.MoneyEntity
 import entity.TransactionEntity
@@ -5,12 +7,12 @@ import transaction.InMemoryTransaction
 import transaction.Transaction
 import java.time.LocalDateTime
 
-class InMemoryTransactionTester {
+class InMemoryTransactionTestCases {
     private lateinit var transaction: Transaction
     private var testsPassed = 0
     private var testsFailed = 0
 
-    private fun assert(condition: Boolean, testName: String) {
+    private fun check(condition: Boolean, testName: String) {
         if (condition) {
             println("✅ Test Passed: $testName")
             testsPassed++
@@ -41,10 +43,10 @@ class InMemoryTransactionTester {
 
     fun testAddTransaction() {
         val expenseTransaction = createSampleTransaction(1, 100.0, TransactionEntity.Type.EXPENSE)
-        assert(transaction.add(expenseTransaction), "Add valid expense transaction")
+        check(transaction.add(expenseTransaction), "Add valid expense transaction")
 
         val incomeTransaction = createSampleTransaction(2, 500.0, TransactionEntity.Type.INCOME)
-        assert(transaction.add(incomeTransaction), "Add valid income transaction")
+        check(transaction.add(incomeTransaction), "Add valid income transaction")
 
         val nullDescTransaction = TransactionEntity(
             id = 3,
@@ -54,10 +56,10 @@ class InMemoryTransactionTester {
             description = null,
             type = TransactionEntity.Type.EXPENSE
         )
-        assert(transaction.add(nullDescTransaction), "Add transaction with null description")
+        check(transaction.add(nullDescTransaction), "Add transaction with null description")
 
         val duplicateTransaction = createSampleTransaction(1, 200.0)
-        assert(!transaction.add(duplicateTransaction), "Add duplicate transaction ID")
+        check(!transaction.add(duplicateTransaction), "Add duplicate transaction ID")
     }
 
     fun testGetAllTransactions() {
@@ -72,13 +74,13 @@ class InMemoryTransactionTester {
 
         // Test getting all transactions
         val allTransactions = transaction.getAll()
-        assert(allTransactions.size == 3, "Get all transactions count")
+        check(allTransactions.size == 3, "Get all transactions count")
 
-        assert(
+        check(
             allTransactions.count { it.type == TransactionEntity.Type.EXPENSE } == 2,
             "Correct number of expense transactions"
         )
-        assert(
+        check(
             allTransactions.count { it.type == TransactionEntity.Type.INCOME } == 1,
             "Correct number of income transactions"
         )
@@ -96,16 +98,16 @@ class InMemoryTransactionTester {
             description = initialTransaction.description,
             type = initialTransaction.type
         )
-        assert(transaction.update(updatedAmount), "Update transaction amount")
+        check(transaction.update(updatedAmount), "Update transaction amount")
 
         val updatedType = initialTransaction.copy(type = TransactionEntity.Type.INCOME)
-        assert(transaction.update(updatedType), "Update transaction type")
+        check(transaction.update(updatedType), "Update transaction type")
 
         val updatedDescription = initialTransaction.copy(description = "Updated description")
-        assert(transaction.update(updatedDescription), "Update transaction description")
+        check(transaction.update(updatedDescription), "Update transaction description")
 
         val nonExistent = createSampleTransaction(999, 100.0)
-        assert(!transaction.update(nonExistent), "Update non-existent transaction")
+        check(!transaction.update(nonExistent), "Update non-existent transaction")
     }
 
     fun testDeleteTransaction() {
@@ -115,13 +117,13 @@ class InMemoryTransactionTester {
         transaction.add(transaction1)
         transaction.add(transaction2)
 
-        assert(transaction.delete(1), "Delete existing transaction")
+        check(transaction.delete(1), "Delete existing transaction")
 
-        assert(!transaction.delete(1), "Delete already deleted transaction")
+        check(!transaction.delete(1), "Delete already deleted transaction")
 
-        assert(!transaction.delete(999), "Delete non-existent transaction")
+        check(!transaction.delete(999), "Delete non-existent transaction")
 
-        assert(!transaction.delete(-1), "Delete with invalid ID")
+        check(!transaction.delete(-1), "Delete with invalid ID")
     }
 
     fun testDateCases() {
@@ -134,7 +136,7 @@ class InMemoryTransactionTester {
             description = "Future transaction",
             type = TransactionEntity.Type.EXPENSE
         )
-        assert(!transaction.add(futureTransaction), "Add transaction with future date")
+        check(!transaction.add(futureTransaction), "Add transaction with future date")
 
 
         val pastTransaction = TransactionEntity(
@@ -145,7 +147,7 @@ class InMemoryTransactionTester {
             description = "Past transaction",
             type = TransactionEntity.Type.EXPENSE
         )
-        assert(transaction.add(pastTransaction), "Add transaction with past date")
+        check(transaction.add(pastTransaction), "Add transaction with past date")
     }
 
     fun runAllTests() {
