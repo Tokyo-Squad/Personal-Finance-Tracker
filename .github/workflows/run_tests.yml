@@ -1,0 +1,88 @@
+name: Run Tests
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  in_memory_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+
+      - name: Setup Kotlin
+        uses: fwilhe2/setup-kotlin@main
+        with:
+          version: '2.1.10'
+
+      - name: Compile and Run InMemory Tests
+        run: |
+          # Compile
+          kotlinc $(find . -name "*.kt") -include-runtime -d app.jar
+          
+          # Run test1 and save output
+          java -jar app.jar test1 >> test1_output.txt 2>&1 || true
+          
+          # Display output
+          cat test1_output.txt
+
+      - name: Comment PR with InMemory Test Results
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const output = fs.readFileSync('test1_output.txt', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## InMemory Transaction Test Results\n```\n' + output + '\n```'
+            });
+
+  monthly_report_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+
+      - name: Setup Kotlin
+        uses: fwilhe2/setup-kotlin@main
+        with:
+          version: '2.1.10'
+
+      - name: Compile and Run Monthly Report Tests
+        run: |
+          # Compile
+          kotlinc $(find . -name "*.kt") -include-runtime -d app.jar
+          
+          # Run test2 and save output
+          java -jar app.jar test2 >> test2_output.txt 2>&1 || true
+          
+          # Display output
+          cat test2_output.txt
+
+      - name: Comment PR with Monthly Report Test Results
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const output = fs.readFileSync('test2_output.txt', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## Monthly Report Test Results\n```\n' + output + '\n```'
+            });
