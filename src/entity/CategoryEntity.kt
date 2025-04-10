@@ -1,5 +1,7 @@
 package entity
 
+import java.io.Serializable
+
 enum class CategoryEntity {
     Food,
     Rent,

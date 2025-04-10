@@ -1,5 +1,6 @@
 package entity
 
+import java.io.Serializable
 import java.time.LocalDateTime
 
 /**
@@ -17,9 +18,8 @@ data class TransactionEntity(
     val category: CategoryEntity,
     val description: String?,
     val type: Type
-) {
-
-    enum class Type {
+) : Serializable {
+    enum class Type : Serializable {
         INCOME,
         EXPENSE
     }
