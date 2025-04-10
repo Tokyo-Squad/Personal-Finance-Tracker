@@ -1,4 +1,6 @@
-import entity.*
+import entity.CategoryEntity
+import entity.MoneyEntity
+import entity.TransactionEntity
 import transaction.InMemoryTransaction
 import transaction.Transaction
 import java.time.LocalDateTime
@@ -48,7 +50,7 @@ class InMemoryTransactionTester {
             id = 3,
             date = LocalDateTime.now(),
             money = MoneyEntity(100.0),
-            category = CategoryEntity.Food,
+            category = CategoryEntity.Water,
             description = null,
             type = TransactionEntity.Type.EXPENSE
         )
