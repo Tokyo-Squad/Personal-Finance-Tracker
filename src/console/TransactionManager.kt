@@ -13,29 +13,18 @@ class TransactionManager (
     private val transaction: Transaction,
     private val transactionFilter: TransactionFilter= TransactionFilterImp(),
     private val monthlyReportCalculator: MonthlyReportCalculator = MonthlyReportCalculatorImp(transactions = transaction.getAll(), filter = transactionFilter)
-
     ){
 
-    fun add(transactionEntity: TransactionEntity): Boolean {
-        transaction.add(transactionEntity)
-        return true
-    }
+    fun add(transactionEntity: TransactionEntity): Boolean = transaction.add(transactionEntity)
 
-    fun getMonthlyReport(month: Int): MonthReportEntity {
-        return monthlyReportCalculator.calculateMonthlyReport(month)
-    }
-
+    fun getMonthlyReport(month: Int): MonthReportEntity = monthlyReportCalculator.calculateMonthlyReport(month)
 
     fun getAll(): List<TransactionEntity> = transaction.getAll()
 
-    fun update(transactionEntity:TransactionEntity ): Boolean {
-        transaction.update(transactionEntity)
-        return true
-    }
+    fun update(transactionEntity:TransactionEntity ): Boolean = transaction.update(transactionEntity)
 
-    fun delete(id: Int): Boolean {
-        return transaction.delete(id)
-    }
+    fun delete(id: Int): Boolean = transaction.delete(id)
+
 
 }
 
