@@ -1,3 +1,6 @@
+package console
+
+import entity.MonthReportEntity
 import entity.TransactionEntity
 import utils.withGreenColor
 import utils.withRedColor
@@ -32,7 +35,18 @@ class PrinterConsole {
     }
 
     fun printAllTransaction(transactions: List<TransactionEntity>){
-        println(transactions)
+        transactions.forEach { transaction ->
+            println(transaction)
+        }
+    }
+
+    fun printMonthlyReport(monthlyReportSummary: MonthReportEntity){
+        println("" +
+                " month :  ${monthlyReportSummary.month} \n" +
+                " income of ${monthlyReportSummary.month} : ${monthlyReportSummary.incomeTotal}\n" +
+                " expose of ${monthlyReportSummary.month} : ${monthlyReportSummary.expenseTotal} \n" +
+                " balance of ${monthlyReportSummary.month} : ${monthlyReportSummary.balance}\n"
+        )
     }
 
 }
