@@ -1,9 +1,11 @@
 package console
 
+import entity.MoneyEntity
 import entity.MonthReportEntity
 import entity.TransactionEntity
 import utils.withGreenColor
 import utils.withRedColor
+import java.time.format.DateTimeFormatter
 
 class PrinterConsole {
 
@@ -34,19 +36,67 @@ class PrinterConsole {
         println(descriptionOperation.withGreenColor())
     }
 
-    fun printAllTransaction(transactions: List<TransactionEntity>){
+    fun printAllTransaction(transactions: List<TransactionEntity>) {
+        if (transactions.isEmpty()) {
+            println("No transactions found")
+            return
+        }
+
+        println("\nTRANSACTION HISTORY")
+        println("----------------------------------------------------------------")
+        println("ID  Date            Amount        Category    Description")
+        println("----------------------------------------------------------------")
+
         transactions.forEach { transaction ->
-            println(transaction)
+            val sign = if (transaction.type == TransactionEntity.Type.INCOME) "+" else "-"
+            val date = transaction.date.format(DateTimeFormatter.ofPattern("MM/dd HH:mm"))
+            val amount = formatMoney(transaction.money, sign)
+            val desc = transaction.description ?: ""
+
+            println("%-3d %-15s %-13s %-11s %s".format(
+                transaction.id,
+                date,
+                amount,
+                transaction.category,
+                desc
+            ))
+        }
+
+        println("----------------------------------------------------------------")
+
+
+    }
+
+    private fun formatMoney(money: MoneyEntity, sign: String = ""): String {
+        return when (money.currencyType) {
+            MoneyEntity.Currency.EUR -> "$sign${"%.2f".format(money.amount)} €"
+            MoneyEntity.Currency.EGP -> "$sign${"%.2f".format(money.amount)} EGP"
+            MoneyEntity.Currency.IQD -> "$sign${"%.0f".format(money.amount)} IQD"
+            else -> "$sign${"%.2f".format(money.amount)} $"  // Default to USD
         }
     }
 
-    fun printMonthlyReport(monthlyReportSummary: MonthReportEntity){
-        println("" +
-                " month :  ${monthlyReportSummary.month} \n" +
-                " income of ${monthlyReportSummary.month} : ${monthlyReportSummary.incomeTotal}\n" +
-                " expose of ${monthlyReportSummary.month} : ${monthlyReportSummary.expenseTotal} \n" +
-                " balance of ${monthlyReportSummary.month} : ${monthlyReportSummary.balance}\n"
-        )
+    fun printMonthlyReport(monthlyReportSummary: MonthReportEntity) {
+        val currency = monthlyReportSummary ?: MoneyEntity.Currency.USD
+
+        fun formatAmount(amount: Double): String {
+            return when (currency) {
+                MoneyEntity.Currency.EUR -> "€${"%.2f".format(amount)}"
+                MoneyEntity.Currency.EGP -> "EGP ${"%.2f".format(amount)}"
+                MoneyEntity.Currency.IQD -> "IQD ${"%.0f".format(amount)}"
+                else -> "$${"%.2f".format(amount)}"
+            }
+        }
+        println("\n╔══════════════════════════════════════╗")
+        println("║        MONTHLY FINANCIAL REPORT      ║")
+        println("╟──────────────────────────────────────╢")
+        println("║  Month: ${monthlyReportSummary.month}                   ")
+        println("╟──────────────────────────────────────╢")
+        println("║  Total Income:  ${formatAmount(monthlyReportSummary.incomeTotal)}              ")
+        println("║  Total Expenses: ${formatAmount(monthlyReportSummary.expenseTotal)}            ")
+        println("╟──────────────────────────────────────╢")
+        println("║  Final Balance: ${formatAmount(monthlyReportSummary.balance)}            ")
+        println("╚══════════════════════════════════════╝")
     }
 
 }
