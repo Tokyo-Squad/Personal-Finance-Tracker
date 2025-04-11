@@ -8,7 +8,7 @@ import utils.withRedColor
 class PrinterConsole {
 
     fun printWelcomeMessage(){
-        println("Welcome to the Transaction Manager")
+        println("Welcome to the Personal Finance Tracker")
     }
 
     fun printMenuList(){
