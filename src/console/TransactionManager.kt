@@ -1,3 +1,5 @@
+package console
+
 import entity.MonthReportEntity
 import entity.TransactionEntity
 import monthreport.MonthlyReportCalculator
