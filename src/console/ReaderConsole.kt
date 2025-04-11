@@ -56,7 +56,7 @@ class ReaderConsole(private val scanner: Scanner, private val console: PrinterCo
         )
         while (true) {
             console.printTitleMessage(
-                "Enter category name:{" +
+                "Enter category number:\n" +
                         "   1- Food,\n" +
                         "   2- Rent,\n" +
                         "   3- Salary,\n" +
@@ -67,7 +67,7 @@ class ReaderConsole(private val scanner: Scanner, private val console: PrinterCo
                         "   8- Water,\n" +
                         "   9- Internet,\n" +
                         "   10- PhoneBill," +
-                        "} "
+                        " "
             )
 
             val category = scanner.nextInt()
