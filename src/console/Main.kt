@@ -2,6 +2,7 @@ package console
 
 import entity.MoneyEntity
 import entity.TransactionEntity
+import monthreport.filter.TransactionFilterImp
 import transaction.FileTransaction
 import java.lang.Math.random
 import java.time.LocalDateTime
@@ -11,16 +12,18 @@ import java.util.*
 
 fun main() {
     val scanner = Scanner(System.`in`)
-    val transactionManager = TransactionManager(FileTransaction())
+    val transactionFilter = TransactionFilterImp()
+    val transactionManager = TransactionManager(FileTransaction(), transactionFilter)
+
     val console = PrinterConsole()
     val readerConsole = ReaderConsole(scanner= scanner, console = console)
 
     console.printWelcomeMessage()
-
     while (true) {
         console.printMenuList()
         when (scanner.nextInt()) {
             1 -> {
+
                 val id = (random() * 1000).toInt()
                 val amount = readerConsole.readDouble("enter amount")
                 val currency = readerConsole.readCurrency()
@@ -50,8 +53,9 @@ fun main() {
                 console.printSuccessOperation("✅ monthly report got")
             }
             3-> {
+                console.printAllTransaction(transactions = transactionManager.getAll())
                 scanner.nextLine()
-                val id = (random() * 1000).toInt()
+                val id = readerConsole.readInt("please enter id ")
                 val amount = readerConsole.readDouble("enter the amount ")
                 val currency = readerConsole.readCurrency()
                 val categoryName = readerConsole.readCategory()
@@ -70,6 +74,7 @@ fun main() {
                     else console.printErrorMessage("❌ There is Some Wrong Not Value Updated ...  ")
             }
             4 -> {
+                console.printAllTransaction(transactions = transactionManager.getAll())
                 scanner.nextLine()
                 val idValue = readerConsole.readInt("enter id value")
                 if(transactionManager.delete(idValue))
@@ -86,7 +91,7 @@ fun main() {
                 break
             }
             else -> {
-                console.printErrorMessage("Invalid option. Please try again.")
+                console.printErrorMessage("❌ Invalid option. Please try again.")
             }
         }
     }
