@@ -3,6 +3,7 @@ package console
 import entity.MoneyEntity
 import entity.TransactionEntity
 import monthreport.filter.TransactionFilterImp
+import test.feature.InMemoryTransactionTestCases
 import test.feature.monthlyReportTestCases
 import transaction.FileTransaction
 import java.lang.Math.random
