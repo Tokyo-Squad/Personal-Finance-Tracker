@@ -5,13 +5,12 @@ import entity.TransactionEntity
 import monthreport.MonthlyReportCalculator
 import monthreport.MonthlyReportCalculatorImp
 import monthreport.filter.TransactionFilter
-import monthreport.filter.TransactionFilterImp
 import transaction.Transaction
 
 
 class TransactionManager (
     private val transaction: Transaction,
-    private val transactionFilter: TransactionFilter= TransactionFilterImp(),
+    private val transactionFilter: TransactionFilter,
     private val monthlyReportCalculator: MonthlyReportCalculator = MonthlyReportCalculatorImp(transactions = transaction.getAll(), filter = transactionFilter)
     ){
 
