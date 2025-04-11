@@ -1,12 +1,13 @@
 package test.common
 
-import entity.MonthReportEntity
+import utils.withGreenColor
+import utils.withRedColor
 
 
 fun <T> check(name: String, result: T, correctResult: T) {
     if (result == correctResult) {
-        println("Success: $name")
+        println("Success: $name".withGreenColor())
     } else {
-        println("Fail: $name")
+        println("Fail: $name".withRedColor())
     }
 }
