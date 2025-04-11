@@ -17,13 +17,14 @@ As a squad, our mission is to collaboratively design and implement a **Personal 
 - **monthreport/**: Handles reporting logic based on transaction dates.  
 - **util/**: Includes file handling, date formatting, and other helpers.  
 - **test/**: Contains test/check functions for validating business logic.
+- **console/**: Contains all console related operation.
+
   
 ## main Features
 - Add new transactions (income or expense)  
 - View a list of all transactions  
 - Edit existing transactions  
 - Delete transactions  
-- Assign categories to transactions (e.g., Food, Rent, Salary)  
 - Generate monthly summaries and balance reports, based on transaction dates  
 
 ## Additional Features
